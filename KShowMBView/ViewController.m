@@ -42,9 +42,11 @@
 - (void)buildSkipButton
 {
     UIButton *skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    skipButton.frame     = CGRectMake(0, 0, 100, 70);
+    skipButton.frame     = CGRectMake(0, 0, 100, 100);
     skipButton.center    = self.view.center;
-    [skipButton setTitle:@"ClickButton" forState:UIControlStateNormal];
+    skipButton.backgroundColor = [UIColor greenColor];
+    [skipButton setTitle:@"Click" forState:UIControlStateNormal];
+    skipButton.layer.cornerRadius = 50;
     [skipButton addTarget:self action:@selector(skipButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.backImageView addSubview:skipButton];
 }
@@ -65,12 +67,16 @@
 #pragma mark - TransitioningDelegate
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-    return [ShowMBTransitionAnimation transitionWithType:ShowMBTransitionAnimationPresentType];
+    ShowMBTransitionAnimation *showMBTransition = [ShowMBTransitionAnimation transitionWithType:ShowMBTransitionAnimationPresentType];
+    showMBTransition.toViewHeight               = 500;
+    return showMBTransition;
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-    return [ShowMBTransitionAnimation transitionWithType:ShowMBTransitionAnimationDismissType];
+    ShowMBTransitionAnimation *dismissMBTransition = [ShowMBTransitionAnimation transitionWithType:ShowMBTransitionAnimationDismissType];
+    dismissMBTransition.toViewHeight               = 500;
+    return dismissMBTransition;
 }
 
 

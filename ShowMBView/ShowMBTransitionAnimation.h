@@ -18,6 +18,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) CGFloat transitionTime;
 
+@property (nonatomic, assign) CGFloat toViewHeight;
+
 
 + (instancetype)transitionWithType:(ShowMBTransitionAnimationType)type;
 

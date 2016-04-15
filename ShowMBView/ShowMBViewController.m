@@ -19,8 +19,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
     
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 400)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 500)];
     imageView.image = [UIImage imageNamed:@"popView"];
+    imageView.contentMode = UIViewContentModeScaleToFill;
     [self.view addSubview:imageView];
 }
 
