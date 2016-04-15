@@ -322,6 +322,7 @@
 				C6C390431CB78E5300B7FD89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

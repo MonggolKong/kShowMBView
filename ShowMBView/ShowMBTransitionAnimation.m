@@ -56,20 +56,21 @@
     UIView *containerView = [transitionContext containerView];
     toViewController.view.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, 400);
     UIView *tempView = [fromViewController.view snapshotViewAfterScreenUpdates:NO];
-    tempView.frame   = fromViewController.view.frame;
     fromViewController.view.hidden = YES;
     [containerView addSubview:tempView];
     [containerView.window addSubview:toViewController.view];
-    CATransform3D t1 = CATransform3DIdentity;
-    t1.m34 = 1.0/-900;
-    t1 = CATransform3DScale(t1, 0.92, 0.92, 1);
-    t1 = CATransform3DRotate(t1, 15.0 * M_PI/180.0, 1 , 0, 0);
-    [tempView.layer setTransform:t1];
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        [tempView.layer setTransform:CATransform3DMakeScale(0.92, 0.92, 1)];
-        toViewController.view.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 400, [UIScreen mainScreen].bounds.size.width, 400);
+    __block CATransform3D t1 = CATransform3DIdentity;
+    t1.m34           = 1.0/-900;
+    [UIView animateWithDuration:[self transitionDuration:transitionContext]/2 animations:^{
+        t1           = CATransform3DRotate(t1, 15.0 * M_PI/180.0, 1, 0, 0);
+        tempView.layer.transform = t1;
     } completion:^(BOOL finished) {
-        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        [UIView animateWithDuration:[self transitionDuration:transitionContext]/2 animations:^{
+            [tempView.layer setTransform:CATransform3DMakeScale(0.92, 0.92, 1)];
+            toViewController.view.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 400, [UIScreen mainScreen].bounds.size.width, 400);
+        } completion:^(BOOL finished) {
+            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        }];
     }];
 }
 
@@ -80,21 +81,26 @@
     UIViewController *toViewController   = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     UIView *containerView = [transitionContext containerView];
     UIView *tempView     = [containerView.subviews firstObject];
-    fromViewController.view.hidden = YES;
     toViewController.view.hidden = YES;
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+        fromViewController.view.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height , [UIScreen mainScreen].bounds.size.width, 400);
+    }];
     [containerView addSubview:tempView];
     [containerView addSubview:toViewController.view];
-    CATransform3D t2 = CATransform3DIdentity;
+    __block CATransform3D t2 = CATransform3DIdentity;
     t2.m34 = 1.0/-900;
-    //绕x轴旋转
-    t2 = CATransform3DRotate(t2, 15.0 * M_PI/180.0, 1 , 0, 0);
-    tempView.layer.transform = t2;
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-        [tempView.layer setTransform:CATransform3DMakeScale(100/95, 100/95, 1)];
+    [UIView animateWithDuration:[self transitionDuration:transitionContext]/2 animations:^{
+        t2 = CATransform3DRotate(t2, 15.0 * M_PI/180.0, 1 , 0, 0);
+        tempView.layer.transform = t2;
     } completion:^(BOOL finished) {
-        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-        toViewController.view.hidden = NO;
-        [tempView removeFromSuperview];
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+            [tempView.layer setTransform:CATransform3DMakeScale(100/92, 100/92, 1)];
+        } completion:^(BOOL finished) {
+            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+            fromViewController.view.hidden = YES;
+            toViewController.view.hidden = NO;
+            [tempView removeFromSuperview];
+        }];
     }];
 }
 
